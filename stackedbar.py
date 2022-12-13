@@ -7,7 +7,7 @@ import plotly.express as px
 #and then you get a chart with all of the items
 def comparebar():
 	# Add histogram data
-	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/info-topo-dash/master/data/freshdata.csv")
+	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/freshdata.csv")
 
 	#define variables that the customer will input
 	portal=""

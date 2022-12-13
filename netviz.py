@@ -31,7 +31,7 @@ def main(ref):
 	domain=""
 	#--------------------
 	#read inputfile
-	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/info-topo-dash/master/data/data.csv", quotechar='"')
+	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/data.csv", quotechar='"')
 
 #define variables that the customer will input
 	sitelist= df['Portal'].unique()
@@ -67,7 +67,7 @@ def refrender(ref, domain, physics):
 	ccx_net = Network(height='750px', width='100%', bgcolor='white', font_color='blue', heading="")
 
 	#read inputfile
-	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/info-topo-dash/master/data/data.csv")
+	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/data.csv")
 	#set outputfile
 	# filter by domain
 	if domain=='all':

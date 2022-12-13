@@ -15,7 +15,7 @@ def matscatterplot3(scatterterm, scattersearch):
 
 	plt.style.use('seaborn-whitegrid')
 
-	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/info-topo-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
+	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
 
 	# keyword filtering
 	if scatterterm == 'no':
@@ -32,7 +32,7 @@ def matscatterplot3(scatterterm, scattersearch):
 
 	plt.style.use('seaborn-whitegrid')
 
-	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/info-topo-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
+	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
 
 	# keyword filtering
 	if scatterterm == 'no':

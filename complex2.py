@@ -127,7 +127,7 @@ def evaluate(frame, portal, domain, ref, search, searchterm, physics, showdf):
 
 def main():
 #read inputfile
-	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/info-topo-dash/master/data/data.csv")
+	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/data.csv")
 	message = st.empty()
 # portal input
 	site= df['Portal'].unique()

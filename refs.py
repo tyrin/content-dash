@@ -10,7 +10,7 @@ def vizrender(ref, domain, physics, search, term):
     ccx_net = Network(height='750px', width='750', bgcolor='white', font_color='blue', heading="")
 
     #read inputfile
-    df = pd.read_csv("https://raw.githubusercontent.com/tyrin/info-topo-dash/master/data.csv")
+    df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data.csv")
     #set outputfile
     # filter by relationship and domain
     if ref == 'all' and 'all' in domain:

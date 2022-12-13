@@ -44,7 +44,7 @@ def matscatterplot3(scatterterm, scattersearch):
 	plt.style.use('seaborn-whitegrid')
 #upload main data for blended rank and blended rank change viz
 
-	dfbr = pd.read_csv("https://raw.githubusercontent.com/tyrin/info-topo-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
+	dfbr = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
 	dff = filterterm(dfbr, scatterterm, scattersearch)
 	termresults = "yes"
 	if dff.isnull().values.any() or scatterterm == "no":
@@ -83,7 +83,7 @@ def matscatterplot3(scatterterm, scattersearch):
 				title_text='Blended Rank Change and Search Volume'
 			)
 		elif scattertype == "Combined Keyword":
-			dfck = pd.read_csv("https://raw.githubusercontent.com/tyrin/info-topo-dash/master/data/combinedKeywords.csv")
+			dfck = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/combinedKeywords.csv")
 			dff = filterterm(dfck, scatterterm, 'volume')
 
 			fig = px.bar(dff, x="Keyword", y=dff['Volume'], color="Portal", title="Combined Keywords")

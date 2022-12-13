@@ -22,7 +22,7 @@ def main():
 #		st.write("my explanation")
 #add two expands, one for help and one for resources
 	#st.header("Writer's Dashboard")
-	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/info-topo-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv", quotechar="""")
+	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv", quotechar="""")
 	app_mode = st.sidebar.selectbox("Check your content for:",
 		['<select>', "Shared Content", "Linked Content", "Customer Search", "Freshness", "Comparison", "Complex Questions", "Beta"])
 	if app_mode == "<select>":
@@ -54,7 +54,7 @@ def main():
 # Download a single file and make its content available as a string.
 @st.cache(show_spinner=False)
 def get_file_content_as_string(path):
-	url = 'https://raw.githubusercontent.com/tyrin/info-topo-dash/master/markdown/' + path
+	url = 'https://raw.githubusercontent.com/tyrin/content-dash/master/markdown/' + path
 	response = urllib.request.urlopen(url)
 	return response.read().decode("utf-8")
 # THIS IS THE SECTION THAT RENDERS EACH PAGE

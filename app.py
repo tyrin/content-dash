@@ -16,13 +16,14 @@ import urllib
 
 #st.set_page_config(page_title="Writers Dashboard", page_icon="sfdc_cloud_icon_52.png", layout="wide", initial_sidebar_state="auto", menu_items=None)
 
+####################### MAIN ####################
 def main():
 #	readme_text = st.expander("Not sure how to use the tool?", expanded=False)
 #	with readme_text:
 #		st.write("my explanation")
 #add two expands, one for help and one for resources
 	#st.header("Info Topology App")
-	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/info-topo-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
+	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
 	app_mode = st.sidebar.selectbox("Check your content for:",
 		['<select>', "Shared Content", "Linked Content", "Customer Search", "Freshness", "Comparison", "Complex Questions", "Beta"])
 	if app_mode == "<select>":
@@ -54,7 +55,7 @@ def main():
 # Download a single file and make its content available as a string.
 @st.cache(show_spinner=False)
 def get_file_content_as_string(path):
-	url = 'https://raw.githubusercontent.com/tyrin/info-topo-dash/master/markdown/' + path
+	url = 'https://raw.githubusercontent.com/tyrin/content-dash/master/markdown/' + path
 	response = urllib.request.urlopen(url)
 	return response.read().decode("utf-8")
 # THIS IS THE SECTION THAT RENDERS EACH PAGE
@@ -152,8 +153,15 @@ def complex_page():
 
 def test_page():
 	st.subheader("Beta")
-	st.write("Testing color scales.")
-	color.main()
+	# Render the readme as markdown using st.markdown.
+		readme_text = st.markdown(get_file_content_as_string("maintenance.md"))
+	st.subheader("Page Views and Last Modified")
+	hist2.main()
+	
+	
+	
+	#st.write("Testing color scales.")
+	#color.main()
 	#barplotly.mainbar()
 #Unique list of domains...?
 #dlist = df['country'].unique()
