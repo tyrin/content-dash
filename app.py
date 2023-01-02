@@ -154,7 +154,7 @@ def complex_page():
 def test_page():
 	st.subheader("Beta")
 	# Render the readme as markdown using st.markdown.
-		readme_text = st.markdown(get_file_content_as_string("maintenance.md"))
+	readme_text = st.markdown(get_file_content_as_string("maintenance.md"))
 	st.subheader("Page Views and Last Modified")
 	hist2.main()
 	
