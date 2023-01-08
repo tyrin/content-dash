@@ -63,7 +63,9 @@ group lookup:
     resource:                                               Resource File                                           internal         Cyan      
     resources:                                              Resource File                                           internal         Cyan      
     http:                                                   External Link                                           external         Blue      
-    https:                                                  External Link                                           external         Cyan      
+    https:help_salesforce_com                               DSC                                                     salesforce       \#037ADE  
+    https:developer_salesforce_com                          DSC                                                     salesforce       \#37D5D6  
+    https:partners_salesforce_com                           PSC                                                     salesforce       \#05E8BA  
     _general:                                               General Release Notes                                   salesforce       \#fedd00  
     _intro:                                                 Intro Release Notes                                     salesforce       \#ffd700  
     _summary:                                               Summary Release Notes                                   salesforce       \#fe5000  
