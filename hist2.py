@@ -55,8 +55,10 @@ def main():
      	#	format="MM/DD/YY - hh:mm")
 		#st.sidebar.write("Start time:", dfr.index.min())
 
-		labels = ax.get_xticks().tolist()
 		ax.set_ylabel('# of Files')
+		labels = ax.get_xticks().tolist()
+		ax.set_xticks(ax.get_xticks())  # just get and reset whatever you already have
+
 		labels = pd.to_datetime(labels)
 		ax.set_xticklabels(labels, rotation=90)
 		#ax.legend()
