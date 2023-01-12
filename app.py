@@ -1,3 +1,5 @@
+# Author Tyrin Avery
+# This app helps you visualize data to help writers make better decisions on migrating, maintaining, and connecting content.
 import streamlit as st
 import streamlit.components.v1 as components
 import networkx as nx
@@ -23,7 +25,9 @@ def main():
 #		st.write("my explanation")
 #add two expands, one for help and one for resources
 	#st.header("Info Topology App")
-	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
+	#df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
+	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jun2022vsDec2022.csv")
+	
 	app_mode = st.sidebar.selectbox("Check your content for:",
 		['<select>', "Shared Content", "Linked Content", "Customer Search", "Freshness", "Comparison", "Complex Questions", "Beta"])
 	if app_mode == "<select>":
