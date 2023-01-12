@@ -50,6 +50,7 @@ def main():
      	#	format="MM/DD/YY - hh:mm")
 		#st.sidebar.write("Start time:", fd.index.min())
 
+
 		ax.set_ylabel('# of Files')
 		labels = ax.get_xticks().tolist()
 		labels = pd.to_datetime(labels)
@@ -60,11 +61,10 @@ def main():
 		st.pyplot(fig, use_container_width=True)
 		st.dataframe(fd)
 	@st.cache
-	def convert_df(fd):
-	   return dff.to_csv().encode('utf-8')
+	def convert_df(frame):
+	   return frame.to_csv().encode('utf-8')
 	if len(portal) != 0:
 		csv = convert_df(fd)
-
 		st.download_button(
 		   "Press to Download",
 		   csv,
