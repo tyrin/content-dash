@@ -60,7 +60,7 @@ def main():
 		st.dataframe(fd)
 	@st.cache
 	def convert_df(fd):
-	   return fd.to_csv().encode('utf-8')
+	   return dff.to_csv().encode('utf-8')
 	if len(portal) != 0:
 		csv = convert_df(fd)
 
