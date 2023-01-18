@@ -9,7 +9,8 @@ import numpy as np
 import netviz
 import color
 import complex2
-import hist
+#import hist
+import freshviz
 import scatter4
 import treemap2
 import stackedbar
@@ -124,7 +125,7 @@ def freshness_page():
 		readme_text = st.markdown(get_file_content_as_string("customersearch.md"))
 	st.subheader("Freshness")
 	#heat.main()
-	hist.main()
+	freshviz.main()
 
 def comparison_page():
 	# Render the readme as markdown using st.markdown.
