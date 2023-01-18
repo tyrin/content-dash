@@ -37,7 +37,7 @@ def matscatterplot3(scatterterm, scattersearch):
 #GRAPH WITHOUT LABELS----------------------------------------------
 	scattertype = st.sidebar.radio(
 		"Select a Visualization",
-		('Blended Rank', 'Blended Rank Change', 'Combined Keyword'))
+		('Blended Rank', 'Blended Rank Change', 'By Portal'))
 # Note Plotly express can't be included directly in streamlit, you have to render it as an html page and then read it in
 # the same way you do with networkx visualizations.
 
@@ -82,11 +82,11 @@ def matscatterplot3(scatterterm, scattersearch):
 				height=800,
 				title_text='Blended Rank Change and Search Volume'
 			)
-		elif scattertype == "Combined Keyword":
+		elif scattertype == "By Portal":
 			dfck = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/combinedKeywords.csv")
 			dff = filterterm(dfck, scatterterm, 'volume')
 
-			fig = px.bar(dff, x="Keyword", y=dff['Volume'], color="Portal", title="Combined Keywords")
+			fig = px.bar(dff, x="Keyword", y=dff['Volume'], color="Portal", title="By Portal")
 			#Other variations of representation
 			#fig = px.bar(dff, x="Keyword", y=dff['Volume'].astype(int), color=dff['Volume'].astype(int), title="Combined Keywords")
 			#fig = px.bar(df1, x=df1.time, y=df2.market, color=df1.sales)
