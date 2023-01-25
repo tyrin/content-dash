@@ -8,8 +8,8 @@ import pandas as pd
 
 def main():
 # Add histogram data
-	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/freshdata2.csv")
-
+	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/freshdata3.csv")
+	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/ViewsByTopic4Freshness.csv")
 #define variables that the customer will input
 	sitelist= df['Portal'].unique()
 	site = np.sort(sitelist)

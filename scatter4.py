@@ -1,4 +1,4 @@
-#run from app.py this has additional data for combined keyword and search volume across portals. However, is not working.
+#run from app.py this has additional data for Keyword By Portal and search volume across portals. However, is not working.
 import streamlit as st
 import streamlit.components.v1 as components
 import numpy as np
@@ -8,19 +8,22 @@ import sys
 import pandas as pd
 import plotly.express as px
 
-#GRAPH WITHOUT LABELS----------------------------------------------
-#keyword filtering
-message = st.empty()
+#KEYWORD FILTERING----------------------------------------------
+
 def filterterm(df, scatterterm, scattersearch):
 	if scatterterm == 'no':
-		message.text("Select a visualization and enter a search term.")
 		dff = df
+		message = st.empty()
+		#message.text("Select a visualization and enter a search term.")
 		#st.dataframe(dff)
-	elif  scattersearch=='volume':
+	elif scatterterm != 'no' and scattersearch=='term':
+		st.write ("Search for " + scatterterm + " in Keyword ")
 		dff = df.loc[(df['Keyword'].str.contains(scatterterm))]
 		# changing the Volume column from text to numeric so we can sort and use a color scale
+		st.dataframe(dff)
 		dff['Volume'] = pd.to_numeric(dff['Volume'])
-	elif  scattersearch=='page':
+	elif scatterterm != 'no' and scattersearch=='page':
+		st.write ("Search for " + scatterterm + " in Page ")
 		dff = df.loc[(df['Page'].str.contains(scatterterm))]
 		#add a new column with the text for hover
 		dff['CustomerSearch'] = df['Keyword'] + "<br>Page: " + df['Page']
@@ -37,20 +40,36 @@ def matscatterplot3(scatterterm, scattersearch):
 #GRAPH WITHOUT LABELS----------------------------------------------
 	scattertype = st.sidebar.radio(
 		"Select a Visualization",
-		('Blended Rank', 'Blended Rank Change', 'Combined Keyword'))
+		('Blended Rank', 'Blended Rank Change', 'Keyword By Portal'))
 # Note Plotly express can't be included directly in streamlit, you have to render it as an html page and then read it in
 # the same way you do with networkx visualizations.
 
 	plt.style.use('seaborn-whitegrid')
 #upload main data for blended rank and blended rank change viz
-
+	dfck = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/combinedKeywords.csv")
 	dfbr = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
-	dff = filterterm(dfbr, scatterterm, scattersearch)
+		
+	if scattertype == "Keyword By Portal":
+		dff = filterterm(dfck, scatterterm, scattersearch)
+	else:
+		dff = filterterm(dfbr, scatterterm, scattersearch)
 	termresults = "yes"
-	if dff.isnull().values.any() or scatterterm == "no":
-		message.text("No results for your term. Check the data below to find a valid keyword.")
-		st.dataframe(dfbr)
+	#before they've entered a keyword
+	if scatterterm == "no" and scattertype == "Keyword By Portal":
+		#st.dataframe(dfck)
 		termresults = "no"
+	if scatterterm == "no" and scattertype != "Keyword By Portal":
+		#st.dataframe(dfbr)
+		termresults = "no"
+	#If they've put in a search string but didn't find any results
+	elif dff.isnull().values.any() and scatterterm != "no":
+		st.write("No results for your term. Check the data below to find a valid keyword.")
+		if scattertype == "Keyword By Portal":
+			st.dataframe(dfck)
+		elif scattertype != "Keyword By Portal":
+			st.dataframe(dfbr)
+		termresults = "no"
+	#If they've put in a search string to search and found results
 	elif scatterterm != "no" or termresults !="no":
 		#st.write("Your term is " + scatterterm)
 		if scattertype == "Blended Rank":
@@ -82,13 +101,10 @@ def matscatterplot3(scatterterm, scattersearch):
 				height=800,
 				title_text='Blended Rank Change and Search Volume'
 			)
-		elif scattertype == "Combined Keyword":
-			dfck = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/combinedKeywords.csv")
-			dff = filterterm(dfck, scatterterm, 'volume')
-
-			fig = px.bar(dff, x="Keyword", y=dff['Volume'], color="Portal", title="Combined Keywords")
+		elif scattertype == "Keyword By Portal":
+			fig = px.bar(dff, x="Keyword", y=dff['Volume'], color="Portal", title="Keyword By Portals")
 			#Other variations of representation
-			#fig = px.bar(dff, x="Keyword", y=dff['Volume'].astype(int), color=dff['Volume'].astype(int), title="Combined Keywords")
+			#fig = px.bar(dff, x="Keyword", y=dff['Volume'].astype(int), color=dff['Volume'].astype(int), title="Keyword By Portals")
 			#fig = px.bar(df1, x=df1.time, y=df2.market, color=df1.sales)
 
 	#if scatterterm != "no" or termresults !="no"

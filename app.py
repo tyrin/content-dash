@@ -111,6 +111,8 @@ def seo_page(df):
 	scatterterm=""
 	if len(scatterterm) == 0:
 		scatterterm = 'no'
+		message = st.empty()
+		message.text("Select a visualization and enter a search term.")
 	scatterterm = st.sidebar.text_input('Enter a search term:', value="", max_chars=25)
 	scattertermlc = scatterterm.lower()
 	#st.write(scattertermlc)

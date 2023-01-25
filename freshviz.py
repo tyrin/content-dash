@@ -22,11 +22,10 @@ def main():
 # Add histogram data
 	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/freshdata3.csv")
 	dv = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/ViewsByTopic4Freshness.csv")
-	#vf = mergeframes(df, dv, "Topic ID")
+	
 #define variables that the customer will input--------------------------------------------
 	sitelist= df['Portal'].unique()
-	#site = np.sort(sitelist)
-	st.write(df)
+	site = np.sort(sitelist)
 	site = sitelist
 	domain=""
 	portal=""
@@ -54,8 +53,10 @@ def main():
 		fd['Date'] = fd['Date'].astype('datetime64')
 #Using the below  causes an error in the streamlit dataframe call even though it should format the dates better, so I have to use the above.
 #fd['Date']= pd.to_datetime(df['Date'])
-
-
+		st.write("Merged Dataframes")
+		colname = "Topic ID"
+		#vf = mergeframes(dfff, dv, colname)
+		st.dataframe(dv)
 # create a bar graph for freshness alone--------------------------------------------------
 
 		fig, ax = plt.subplots(figsize=(7,3))
@@ -77,10 +78,10 @@ def main():
 		#ax.legend()
 
 		st.pyplot(fig, use_container_width=True)
-		st.dataframe(fd)
+		st.dataframe(dfff)
 
 	if len(portal) != 0:
-		csv = convert_df(dff)
+		csv = convert_df(dfff)
 		st.download_button(
 		   "Press to Download",
 		   csv,
