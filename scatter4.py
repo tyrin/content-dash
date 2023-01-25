@@ -14,20 +14,23 @@ def filterterm(df, scatterterm, scattersearch):
 	if scatterterm == 'no':
 		dff = df
 		message = st.empty()
-		#message.text("Select a visualization and enter a search term.")
-		#st.dataframe(dff)
+		dfna = df[df.isna().any(axis=1)]
+		#message.text("Enter your search and select a visualization")
+		st.dataframe(dfna)
 	elif scatterterm != 'no' and scattersearch=='term':
 		st.write ("Search for " + scatterterm + " in Keyword ")
-		dff = df.loc[(df['Keyword'].str.contains(scatterterm))]
+		dff = df.loc[(df['Keyword'].str.contains(scatterterm, na=False))]
 		# changing the Volume column from text to numeric so we can sort and use a color scale
-		st.dataframe(dff)
-		dff['Volume'] = pd.to_numeric(dff['Volume'])
-	elif scatterterm != 'no' and scattersearch=='page':
-		st.write ("Search for " + scatterterm + " in Page ")
-		dff = df.loc[(df['Page'].str.contains(scatterterm))]
 		#add a new column with the text for hover
 		dff['CustomerSearch'] = df['Keyword'] + "<br>Page: " + df['Page']
-		#st.dataframe(dff)
+		st.dataframe(dff)
+		#dff['Volume'] = pd.to_numeric(dff['Volume'])
+	elif scatterterm != 'no' and scattersearch=='page':
+		st.write ("Search for " + scatterterm + " in Page ")
+		dff = df.loc[(df['Page'].str.contains(scatterterm, na=False))]
+		#add a new column with the text for hover
+		dff['CustomerSearch'] = df['Keyword'] + "<br>Page: " + df['Page']
+		st.dataframe(dff)
 	else:
 		dff = df.loc[(df['Keyword'].str.contains(scatterterm))]
 		dff['CustomerSearch'] = df['Keyword'] + "<br>Page: " + df['Page']
