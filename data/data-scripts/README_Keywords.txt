@@ -1,0 +1,3 @@
+When preparing the data files for the app....
+Make sure that column headers are Volume instead of Search Volume .
+Make sure that there are no commas in the Volume column. In Excel you can just format the cells as General and it'll remove them.
