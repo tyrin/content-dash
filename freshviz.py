@@ -22,13 +22,20 @@ def main():
 # Add histogram data
 	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/freshdata3.csv")
 	dv = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/ViewsByTopic4Freshness.csv")
+	df['Topic ID'] = df['Topic ID'].astype(str)
+	dv['Topic ID'] = dv['Topic ID'].astype(str)
 	
 #define variables that the customer will input--------------------------------------------
 	#Identify any lines with nan values. Use to test if you get weird bugs with a new data file.
 	#dfna = df[df.isna().any(axis=1)]
 	#st.dataframe(dfna)
-	dfnb = dv[df.isna().any(axis=1)]
-	st.dataframe(dfnb)
+	#dfnb = dv[df.isna().any(axis=1)]
+	#st.dataframe(dfnb)
+	#Identify any lines with duplicate values. Use to test if merge isn't going well.
+	#dfda = df.duplicated('Topic ID')
+	#st.dataframe(dfda)
+	#dfdb = dv.duplicated('Topic ID')
+	#st.dataframe(dfdb)
 	sitelist= df['Portal'].unique()
 	#Identify any lines with nan values
 	dfna = df[df.isna().any(axis=1)]
