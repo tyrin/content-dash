@@ -24,8 +24,14 @@ def main():
 	dv = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/ViewsByTopic4Freshness.csv")
 	
 #define variables that the customer will input--------------------------------------------
+	#Identify any lines with nan values
+	dfna = df[df.isna().any(axis=1)]
+	st.dataframe(dfna)
 	sitelist= df['Portal'].unique()
-	site = np.sort(sitelist)
+	#Identify any lines with nan values
+	dfna = df[df.isna().any(axis=1)]
+	st.dataframe(dfna)
+	#site = np.ndarray.sort(sitelist)
 	site = sitelist
 	domain=""
 	portal=""
