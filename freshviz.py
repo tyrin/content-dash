@@ -24,13 +24,15 @@ def main():
 	dv = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/ViewsByTopic4Freshness.csv")
 	
 #define variables that the customer will input--------------------------------------------
-	#Identify any lines with nan values
-	dfna = df[df.isna().any(axis=1)]
-	st.dataframe(dfna)
+	#Identify any lines with nan values. Use to test if you get weird bugs with a new data file.
+	#dfna = df[df.isna().any(axis=1)]
+	#st.dataframe(dfna)
+	dfnb = dv[df.isna().any(axis=1)]
+	st.dataframe(dfnb)
 	sitelist= df['Portal'].unique()
 	#Identify any lines with nan values
 	dfna = df[df.isna().any(axis=1)]
-	st.dataframe(dfna)
+	#st.dataframe(dfna)
 	#site = np.ndarray.sort(sitelist)
 	site = sitelist
 	domain=""
@@ -61,8 +63,8 @@ def main():
 #fd['Date']= pd.to_datetime(df['Date'])
 		st.write("Merged Dataframes")
 		colname = "Topic ID"
-		#vf = mergeframes(dfff, dv, colname)
-		st.dataframe(dv)
+		vf = mergeframes(dfff, dv, colname)
+		st.dataframe(vf)
 # create a bar graph for freshness alone--------------------------------------------------
 
 		fig, ax = plt.subplots(figsize=(7,3))
