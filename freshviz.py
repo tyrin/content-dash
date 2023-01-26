@@ -24,7 +24,13 @@ def main():
 	dv = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/ViewsByTopic4Freshness.csv")
 	df['Topic ID'] = df['Topic ID'].astype(str)
 	dv['Topic ID'] = dv['Topic ID'].astype(str)
-	
+	#Strip any blank spaces in the column
+	df['Topic ID'] = df['Topic ID'].apply(str).str.strip()
+	dv['Topic ID'] = dv['Topic ID'].apply(str).str.strip()
+	st.write("freshdata")
+	st.dataframe(df)
+	st.write("ViewbyTopic4Freshness")
+	st.dataframe(dv)
 #define variables that the customer will input--------------------------------------------
 	#Identify any lines with nan values. Use to test if you get weird bugs with a new data file.
 	#dfna = df[df.isna().any(axis=1)]
