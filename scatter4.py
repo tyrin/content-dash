@@ -14,6 +14,7 @@ def filterterm(df, scatterterm, scattersearch):
 	if scatterterm == 'no':
 		dff = df
 		message = st.empty()
+		#Identify any lines with nan values
 		dfna = df[df.isna().any(axis=1)]
 		#message.text("Enter your search and select a visualization")
 		#st.dataframe(dfna)
@@ -106,6 +107,8 @@ def matscatterplot3(scatterterm, scattersearch):
 			)
 		elif scattertype == "Keyword By Portal":
 			fig = px.bar(dff, x="Keyword", y=dff['Volume'], color="Portal", title="Keyword By Portals")
+			fig.update_layout(height=800,
+			)
 			#Other variations of representation
 			#fig = px.bar(dff, x="Keyword", y=dff['Volume'].astype(int), color=dff['Volume'].astype(int), title="Keyword By Portals")
 			#fig = px.bar(df1, x=df1.time, y=df2.market, color=df1.sales)
