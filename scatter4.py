@@ -20,6 +20,7 @@ def filterterm(df, scatterterm, scattersearch):
 		#st.dataframe(dfna)
 	elif scatterterm != 'no' and scattersearch=='term':
 		st.write ("Search for the term " + scatterterm + " as a Keyword ")
+		message = st.empty()
 		dff = df.loc[(df['Keyword'].str.contains(scatterterm, na=False))]
 		# changing the Volume column from text to numeric so we can sort and use a color scale
 		#add a new column with the text for hover
@@ -28,6 +29,7 @@ def filterterm(df, scatterterm, scattersearch):
 		#dff['Volume'] = pd.to_numeric(dff['Volume'])
 	elif scatterterm != 'no' and scattersearch=='page':
 		st.write ("Search for the term" + scatterterm + " in the page path.")
+		message = st.empty()
 		dff = df.loc[(df['Page'].str.contains(scatterterm, na=False))]
 		#add a new column with the text for hover
 		dff['CustomerSearch'] = df['Keyword'] + "<br>Page: " + df['Page']
@@ -107,7 +109,8 @@ def matscatterplot3(scatterterm, scattersearch):
 			)
 		elif scattertype == "Keyword By Portal":
 			fig = px.bar(dff, x="Keyword", y=dff['Volume'], color="Portal", title="Keyword By Portals")
-			fig.update_layout(height=800,
+			fig.update_layout(
+				height=800, width=1000
 			)
 			#Other variations of representation
 			#fig = px.bar(dff, x="Keyword", y=dff['Volume'].astype(int), color=dff['Volume'].astype(int), title="Keyword By Portals")

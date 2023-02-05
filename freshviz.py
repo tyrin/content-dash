@@ -17,37 +17,33 @@ def mergeframes(leftframe, rightframe, column):#---merges two tables based on th
 	mergeframe = pd.merge(rightframe, leftframe, how="outer", on=column)
 	st.write(mergeframe.shape)
 	return(mergeframe)
-   
+
 def main():
 # Add histogram data
 	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/freshdata3.csv")
 	dv = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/ViewsByTopic4Freshness.csv")
+
+	#Set the topic ID column as string
 	df['Topic ID'] = df['Topic ID'].astype(str)
 	dv['Topic ID'] = dv['Topic ID'].astype(str)
-	#Strip any blank spaces in the column
-	df['Topic ID'] = df['Topic ID'].apply(str).str.strip()
-	dv['Topic ID'] = dv['Topic ID'].apply(str).str.strip()
-	st.write("freshdata")
-	st.dataframe(df)
-	st.write("ViewbyTopic4Freshness")
-	st.dataframe(dv)
+
+	#Fill in all naan values with zero
+	df = df.fillna(value='0')
+	dv = dv.fillna(value='0')
+	#Set the view column as numeric
+	#df["a"] = pd.to_numeric(df["a"])
+	viewtypes = dv.dtypes
+	dv['Views '] = dv['Views '].astype(int)
+	#pd.to_numeric(dv['Views'])
+	st.write(viewtypes)
+	#st.dataframe(dv)
 #define variables that the customer will input--------------------------------------------
-	#Identify any lines with nan values. Use to test if you get weird bugs with a new data file.
-	#dfna = df[df.isna().any(axis=1)]
-	#st.dataframe(dfna)
-	#dfnb = dv[df.isna().any(axis=1)]
-	#st.dataframe(dfnb)
-	#Identify any lines with duplicate values. Use to test if merge isn't going well.
-	#dfda = df.duplicated('Topic ID')
-	#st.dataframe(dfda)
-	#dfdb = dv.duplicated('Topic ID')
-	#st.dataframe(dfdb)
+
 	sitelist= df['Portal'].unique()
 	#Identify any lines with nan values
 	dfna = df[df.isna().any(axis=1)]
 	#st.dataframe(dfna)
-	#site = np.ndarray.sort(sitelist)
-	site = sitelist
+	site = np.sort(sitelist)
 	domain=""
 	portal=""
 	portal = st.sidebar.multiselect(
@@ -76,8 +72,16 @@ def main():
 #fd['Date']= pd.to_datetime(df['Date'])
 		st.write("Merged Dataframes")
 		colname = "Topic ID"
-		vf = mergeframes(dfff, dv, colname)
-		st.dataframe(vf)
+		#vf = mergeframes(dfff, dv, colname)
+		dvf = df.combine_first(dv)
+		dv = dv.fillna(value='0')
+		#st.dataframe(vf)
+		multifig, ax = plt.subplots(figsize=(7,3))
+		x =  dvf['Date']
+		y = dvf['Views']
+		plt.scatter(x, y)
+		st.pyplot(multifig, use_container_width=True)
+		st.dataframe(dvf)
 # create a bar graph for freshness alone--------------------------------------------------
 
 		fig, ax = plt.subplots(figsize=(7,3))
