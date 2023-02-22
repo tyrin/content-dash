@@ -2,7 +2,6 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 import streamlit as st
-import streamlit.components.v1 as components
 import plotly.figure_factory as ff
 import numpy as np
 import pandas as pd
@@ -16,17 +15,13 @@ def convert_df(frame):
 def mergeframes(leftframe, rightframe, column):#---merges two tables based on the  column
 	#mergeframe = pd.merge(leftframe, rightframe, on=["Username"])
 	mergeframe = pd.merge(rightframe, leftframe, how="outer", on=column)
-	#st.write(mergeframe.shape)
+	st.write(mergeframe.shape)
 	return(mergeframe)
 
 def main():
-# select viz
-	viztype = st.sidebar.radio(
-		"Select a visualization",
-		('Freshness and Views', 'Freshness'))
 # Add histogram data
 	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/freshdata3.csv")
-	dv = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/ViewsByTopic4Freshness.csv", sep=',', thousands=',')
+	dv = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/ViewsByTopic4Freshness.csv")
 
 	#Set the topic ID column as string
 	df['Topic ID'] = df['Topic ID'].astype(str)
@@ -35,7 +30,13 @@ def main():
 	#Fill in all naan values with zero
 	df = df.fillna(value='0')
 	dv = dv.fillna(value='0')
-	
+	#Set the view column as numeric
+	#df["a"] = pd.to_numeric(df["a"])
+	viewtypes = dv.dtypes
+	#dv['Views'] = dv['Views'].astype(int)
+	#pd.to_numeric(dv['Views'])
+	st.write(viewtypes)
+	#st.dataframe(dv)
 #define variables that the customer will input--------------------------------------------
 
 	sitelist= df['Portal'].unique()
@@ -69,38 +70,40 @@ def main():
 		fd['Date'] = fd['Date'].astype('datetime64')
 #Using the below  causes an error in the streamlit dataframe call even though it should format the dates better, so I have to use the above.
 #fd['Date']= pd.to_datetime(df['Date'])
-		
+		st.write("Merged Dataframes")
 		colname = "Topic ID"
 		#vf = mergeframes(dfff, dv, colname)
 		dvf = df.combine_first(dv)
-		#dv = dv.fillna(value='0')
-
-		if viztype == "Freshness":
-			freshbars(fd, portal, dfff)
-		if viztype == "Freshness and Views":
-			freshviews(dvf, portal)
+		dv = dv.fillna(value='0')
+		#st.dataframe(vf)
+		multifig, ax = plt.subplots(figsize=(7,3))
+		x =  dvf['Date']
+		y = dvf['Views']
+		plt.scatter(x, y)
+		st.pyplot(multifig, use_container_width=True)
+		st.dataframe(dvf)
 # create a bar graph for freshness alone--------------------------------------------------
-def freshbars(fd, portal, dfff):
-	fig, ax = plt.subplots(figsize=(7,3))
-	fd["Date"].astype(np.int64).plot.hist(ax=ax)
-	#Creating side bar so it reflect current data
-	#min_value = fd.index.min()
-	#start_time = st.sidebar.slider(
- 	#	"When do you start?",
- 	#	value=fd.index.min(),
- 	#	format="MM/DD/YY - hh:mm")
-	#st.sidebar.write("Start time:", fd.index.min())
+
+		fig, ax = plt.subplots(figsize=(7,3))
+		fd["Date"].astype(np.int64).plot.hist(ax=ax)
+		#Creating side bar so it reflect current data
+		#min_value = fd.index.min()
+		#start_time = st.sidebar.slider(
+     	#	"When do you start?",
+     	#	value=fd.index.min(),
+     	#	format="MM/DD/YY - hh:mm")
+		#st.sidebar.write("Start time:", fd.index.min())
 
 
-	ax.set_ylabel('# of Files')
-	labels = ax.get_xticks().tolist()
-	labels = pd.to_datetime(labels)
-	ax.set_xticks(ax.get_xticks())  # just get and reset whatever you already have
-	ax.set_xticklabels(labels, rotation=90)
-	#ax.legend()
+		ax.set_ylabel('# of Files')
+		labels = ax.get_xticks().tolist()
+		labels = pd.to_datetime(labels)
+		ax.set_xticks(ax.get_xticks())  # just get and reset whatever you already have
+		ax.set_xticklabels(labels, rotation=90)
+		#ax.legend()
 
-	st.pyplot(fig, use_container_width=True)
-	st.dataframe(dfff)
+		st.pyplot(fig, use_container_width=True)
+		st.dataframe(dfff)
 
 	if len(portal) != 0:
 		csv = convert_df(dfff)
@@ -111,55 +114,14 @@ def freshbars(fd, portal, dfff):
 		   "text/csv",
 		   key='download-csv'
 		)
-def freshviews(dvf, portal):
-	st.write("Prioritize Content for Maintenance")
-	#--------- Data type conversions
-	# 
-	# my data is datetime64[ns, tzlocal()]
-	dvf['Date'] = dvf['Date'].astype('datetime64[ns]')
-	dvf['Group'] = dvf['Group'].astype('category')
-	#Set the view column as numeric
-	pd.to_numeric(dvf['Views'])
-	#dvf['Views'] = dvf['Views'].astype('int')
-	#
-	# Show new data types
+#---------
+# Data type conversions
+# my data is datetime64[ns, tzlocal()]
+#df['created_at'] = df['created_at'].astype('datetime64[ns]')
+#df['user_type'] = df['user_type'].astype('category')
+#
+## Show new data types
+#df.dtypes
 
-	#viewtypes = dvf.dtypes
-	#st.write(viewtypes)
-	#st.dataframe(dvf)
-	#--------- Figure
-	fig = px.scatter(dvf, x="Date", y="Views",
-		text="Topic ID",
-		log_x=False,
-		error_x_minus="Date",
-		size="Secs",
-		color="Date",
-		size_max=25)
-
-		#fig.update_traces(textposition='top center')
-	fig.update_traces(mode="markers")
-	#fig.update_xaxes(tickformat="%Y %b %e")
-	fig.update_layout(
-		height=800,
-		title_text='Last Changed Date and Number of Views'
-	)
-
-	fig.write_html("scatter.html")
-	HtmlFile = open("scatter.html", 'r', encoding='utf-8')
-	source_code = HtmlFile.read()
-	components.html(source_code, height = 700,width=900)
-	st.dataframe(dvf)
-	def convert_df(dvf):
-	   return dvf.to_csv().encode('utf-8')
-
-	csv = convert_df(dvf)
-
-	st.download_button(
-	   "Press to Download",
-	   csv,
-	   "file.csv",
-	   "text/csv",
-	   key='download-csv'
-	)
 
 #--------

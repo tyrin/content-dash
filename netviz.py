@@ -55,7 +55,7 @@ def main(ref):
 		dfc = df.loc[df['Portal'].isin(portal)]
 		physics = st.sidebar.checkbox('Add physics interactivity?')
 		#frame = st.sidebar.checkbox('Show table data?')
-		graphtitle = 'Network graph for ' + ', '.join(domain) + ' ' + 'conrefs:'
+		graphtitle = 'Network graph for ' + ', '.join(domain) + ' ' + ref + 's:'
 		st.write(graphtitle)
 		#netviz module refrender(relationship, domain, physics)
 		message = st.empty()

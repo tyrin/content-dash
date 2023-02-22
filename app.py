@@ -9,14 +9,15 @@ import numpy as np
 import netviz
 import color
 import complex2
-#import hist
+import test
 import freshviz
 import scatter4
 import treemap2
 import stackedbar
 import pandas as pd
 import urllib
-
+import plotly.io as pio
+pio.templates.default = "plotly"
 #st.set_page_config(page_title="Writers Dashboard", page_icon="sfdc_cloud_icon_52.png", layout="wide", initial_sidebar_state="auto", menu_items=None)
 
 ####################### MAIN ####################
@@ -25,7 +26,7 @@ def main():
 #	with readme_text:
 #		st.write("my explanation")
 #add two expands, one for help and one for resources
-	#st.header("Info Topology App")
+	#st.header("Content Dash App")
 	#df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jan2021vsJan2022.csv")
 	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jun2022vsDec2022.csv")
 	
@@ -54,7 +55,7 @@ def main():
 		complex_page()
 	elif app_mode == "Beta":
 		#readme_text.empty()
-		test_page()
+		test.main()
 
 # THIS IS THE SECTION THAT CONTAINS UTILITY FUNCTIONS
 # Download a single file and make its content available as a string.
@@ -68,7 +69,7 @@ def home():
 	st.sidebar.success("Select a visualization in the sidebar.")
 
 	# Render the readme as markdown using st.markdown.
-	with st.expander("How Do I Use the Info Topology App?"):
+	with st.expander("How Do I Use the Content Dash?"):
 		readme_text = st.markdown(get_file_content_as_string("instructions.md"))
 	with st.expander("Resources"):
 		resource_text = st.markdown(get_file_content_as_string("resources.md"))
@@ -111,8 +112,6 @@ def seo_page(df):
 	scatterterm=""
 	if len(scatterterm) == 0:
 		scatterterm = 'no'
-		message = st.empty()
-		message.text("Select a visualization and enter a search term.")
 	scatterterm = st.sidebar.text_input('Enter a search term:', value="", max_chars=25)
 	scattertermlc = scatterterm.lower()
 	#st.write(scattertermlc)
@@ -161,9 +160,7 @@ def complex_page():
 def test_page():
 	st.subheader("Beta")
 	# Render the readme as markdown using st.markdown.
-	readme_text = st.markdown(get_file_content_as_string("maintenance.md"))
-	st.subheader("Page Views and Last Modified")
-	hist2.main()
+	test()
 	
 	
 	
