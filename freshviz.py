@@ -9,6 +9,7 @@ import pandas as pd
 import os
 import sys
 import plotly.express as px
+from dateutil.parser import parse
 
 def convert_df(frame):
    return frame.to_csv().encode('utf-8')
@@ -27,7 +28,7 @@ def main():
 # Add histogram data
 	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/freshdata3.csv")
 	dv = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/ViewsByTopic4Freshness.csv", sep=',', thousands=',')
-
+	df['Date'] = df['Date'].astype('datetime64')
 	#Set the topic ID column as string
 	df['Topic ID'] = df['Topic ID'].astype(str)
 	dv['Topic ID'] = dv['Topic ID'].astype(str)
@@ -61,23 +62,25 @@ def main():
 		dfff = df.loc[df['Portal'].isin(portal)]
 		fd = dfff.filter(items=['Date', 'Node'])
 		#fd['Date'] = fd['Date'].astype('datetime64[ns]')
-		fd['Date'] = fd['Date'].astype('datetime64')
+		#fd['Date'] = fd['Date'].astype('datetime64')
 	if (len(portal) > 0) and (len(domain) > 0):
 		#message.text("Filter by date")
 		dfff = df.loc[(df['Portal'].isin(portal)) & (df['Group'].isin(domain))]
 		fd = dfff.filter(items=['Date', 'Node'])
-		fd['Date'] = fd['Date'].astype('datetime64')
+		#fd['Date'] = fd['Date'].astype('datetime64')
 #Using the below  causes an error in the streamlit dataframe call even though it should format the dates better, so I have to use the above.
 #fd['Date']= pd.to_datetime(df['Date'])
 		
 		colname = "Topic ID"
 		#vf = mergeframes(dfff, dv, colname)
-		dvf = df.combine_first(dv)
+		dfc = df.combine_first(dv)
+		dvf = dfc.loc[(dfc['Portal'].isin(portal)) & (dfc['Group'].isin(domain))]
 		#dv = dv.fillna(value='0')
 
 		if viztype == "Freshness":
 			freshbars(fd, portal, dfff)
 		if viztype == "Freshness and Views":
+			#st.write ("In Beta")
 			freshviews(dvf, portal)
 # create a bar graph for freshness alone--------------------------------------------------
 def freshbars(fd, portal, dfff):
@@ -113,41 +116,51 @@ def freshbars(fd, portal, dfff):
 		)
 def freshviews(dvf, portal):
 	st.write("Prioritize Content for Maintenance")
+
 	#--------- Data type conversions
-	# 
-	# my data is datetime64[ns, tzlocal()]
-	dvf['Date'] = dvf['Date'].astype('datetime64[ns]')
-	dvf['Group'] = dvf['Group'].astype('category')
-	#Set the view column as numeric
-	pd.to_numeric(dvf['Views'])
-	#dvf['Views'] = dvf['Views'].astype('int')
+	#dvf["Date"].astype(np.int64).plot.scatter(ax=ax)
+	##dvf['Date'] = dvf['Date'].astype('datetime64[ns]')
+	#dvf['Group'] = dvf['Group'].astype('category')
+	##Set the view column as numeric
+	#pd.to_numeric(dvf['Views'])
 	#
 	# Show new data types
-
 	#viewtypes = dvf.dtypes
 	#st.write(viewtypes)
 	#st.dataframe(dvf)
 	#--------- Figure
+	#fig, ax = plt.subplots(figsize=(7,3))
+	#fd["Date"].astype(np.int64).plot.hist(ax=ax)
+	#ax.set_ylabel('Views')
+	#labels = ax.get_xticks().tolist()
+	#labels = pd.to_datetime(labels)
+	#ax.set_xticks(ax.get_xticks())  # just get and reset whatever you already have
+	#ax.set_xticklabels(labels, rotation=90)
 	fig = px.scatter(dvf, x="Date", y="Views",
 		text="Topic ID",
 		log_x=False,
-		error_x_minus="Date",
+		#error_x_minus="Date",
 		size="Secs",
-		color="Date",
-		size_max=25)
-
-		#fig.update_traces(textposition='top center')
+		#color="Date",
+		size_max=25
+		)
+#
+	#	#fig.update_traces(textposition='top center')
 	fig.update_traces(mode="markers")
-	#fig.update_xaxes(tickformat="%Y %b %e")
+	##fig.update_xaxes(tickformat="%Y %b %e")
 	fig.update_layout(
 		height=800,
 		title_text='Last Changed Date and Number of Views'
 	)
-
-	fig.write_html("scatter.html")
-	HtmlFile = open("scatter.html", 'r', encoding='utf-8')
-	source_code = HtmlFile.read()
-	components.html(source_code, height = 700,width=900)
+#
+	#fig.write_html("scatter.html")
+	#HtmlFile = open("scatter.html", 'r', encoding='utf-8')
+	#source_code = HtmlFile.read()
+	#components.html(source_code, height = 700,width=900)
+	#freshtypes = dvf.dtypes
+	#st.write(freshtypes)
+	
+	st.plotly_chart(fig, use_container_width=True)
 	st.dataframe(dvf)
 	def convert_df(dvf):
 	   return dvf.to_csv().encode('utf-8')

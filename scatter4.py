@@ -122,7 +122,7 @@ def matscatterplot3(scatterterm, scattersearch):
 		source_code = HtmlFile.read()
 		components.html(source_code, height = 700,width=900)
 		st.dataframe(dff)
-		@st.cache
+		@st.cache_data
 		def convert_df(dff):
 		   return dff.to_csv().encode('utf-8')
 

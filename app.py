@@ -31,7 +31,7 @@ def main():
 	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/TotalOrganicKeywords-Jun2022vsDec2022.csv")
 	
 	app_mode = st.sidebar.selectbox("Check your content for:",
-		['<select>', "Shared Content", "Linked Content", "Customer Search", "Freshness", "Comparison", "Complex Questions", "Beta"])
+		['<select>', "Shared Content", "Linked Content", "Customer Search", "Freshness", "Comparison", "Complex Questions", "Beta", "Color"])
 	if app_mode == "<select>":
 		home()
 		#readme_text.empty()
@@ -56,10 +56,13 @@ def main():
 	elif app_mode == "Beta":
 		#readme_text.empty()
 		test.main()
+	elif app_mode == "Color":
+		#readme_text.empty()
+		color.main()
 
 # THIS IS THE SECTION THAT CONTAINS UTILITY FUNCTIONS
 # Download a single file and make its content available as a string.
-@st.cache(show_spinner=False)
+@st.cache_data(show_spinner=False)
 def get_file_content_as_string(path):
 	url = 'https://raw.githubusercontent.com/tyrin/content-dash/master/markdown/' + path
 	response = urllib.request.urlopen(url)

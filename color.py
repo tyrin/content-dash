@@ -9,8 +9,12 @@ def main():
 	#st.write(px.colors.carto.swatches())
 	#st.write(px.colors.cmocean.swatches())
 	#st.write(px.colors.colorbrewer.swatches())
+	st.write("Cyclical")
 	st.write(px.colors.cyclical.swatches())
+	st.write("Diverging")
 	st.write(px.colors.diverging.swatches())
+	st.write("Qualitative")
 	st.write(px.colors.qualitative.swatches())
+	st.write("Sequential")
 	st.write(px.colors.sequential.swatches())
 

@@ -41,7 +41,7 @@ def comparebar():
 		st.plotly_chart(fig, use_container_width=True)
 
 #		st.dataframe(dfs)
-#	@st.cache
+#	@st.cache_data
 #	def convert_df(dff):
 #	   return dff.to_csv().encode('utf-8')
 #	if len(portal) != 0:

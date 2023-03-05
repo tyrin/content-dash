@@ -67,7 +67,7 @@ def main():
 
 		st.pyplot(fig)
 		st.dataframe(fd)
-	@st.cache
+	@st.cache_data
 	def convert_df(fd):
 	   return dff.to_csv().encode('utf-8')
 	if len(portal) != 0:
