@@ -52,7 +52,7 @@ def main():
 
 # THIS IS THE SECTION THAT CONTAINS UTILITY FUNCTIONS
 # Download a single file and make its content available as a string.
-@st.cache_data(show_spinner=False)
+(show_spinner=False)
 def get_file_content_as_string(path):
 	url = 'https://raw.githubusercontent.com/tyrin/content-dash/master/markdown/' + path
 	response = urllib.request.urlopen(url)

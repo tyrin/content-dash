@@ -60,7 +60,7 @@ def main():
 
 		st.pyplot(fig, use_container_width=True)
 		st.dataframe(fd)
-	@st.cache_data
+	
 	def convert_df(frame):
 	   return frame.to_csv().encode('utf-8')
 	if len(portal) != 0:
