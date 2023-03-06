@@ -117,32 +117,15 @@ def freshbars(fd, portal, dfff):
 def freshviews(dvf, portal):
 	st.write("Prioritize Content for Maintenance")
 
-	#--------- Data type conversions
-	#dvf["Date"].astype(np.int64).plot.scatter(ax=ax)
-	##dvf['Date'] = dvf['Date'].astype('datetime64[ns]')
-	#dvf['Group'] = dvf['Group'].astype('category')
-	##Set the view column as numeric
-	#pd.to_numeric(dvf['Views'])
-	#
-	# Show new data types
-	#viewtypes = dvf.dtypes
-	#st.write(viewtypes)
-	#st.dataframe(dvf)
 	#--------- Figure
-	#fig, ax = plt.subplots(figsize=(7,3))
-	#fd["Date"].astype(np.int64).plot.hist(ax=ax)
-	#ax.set_ylabel('Views')
-	#labels = ax.get_xticks().tolist()
-	#labels = pd.to_datetime(labels)
-	#ax.set_xticks(ax.get_xticks())  # just get and reset whatever you already have
-	#ax.set_xticklabels(labels, rotation=90)
+
 	fig = px.scatter(dvf, x="Date", y="Views",
 		text="Topic ID",
 		log_x=False,
 		#error_x_minus="Date",
-		size="Secs",
-		#color="Date",
-		size_max=25
+		size='Secs',
+		color='Views',
+		size_max=15
 		)
 #
 	#	#fig.update_traces(textposition='top center')
