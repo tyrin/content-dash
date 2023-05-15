@@ -10,7 +10,6 @@ import netviz
 import color
 import complex2
 import test
-import testCompAnalysis
 import freshviz
 import scatter4
 import treemap2
