@@ -9,6 +9,7 @@ def main():
 	#st.write(px.colors.carto.swatches())
 	#st.write(px.colors.cmocean.swatches())
 	#st.write(px.colors.colorbrewer.swatches())
+	# Appending '_r' to a named colorscale reverses it.
 	st.write("Cyclical")
 	st.write(px.colors.cyclical.swatches())
 	st.write("Diverging")

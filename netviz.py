@@ -31,7 +31,12 @@ def main(ref):
 	domain=""
 	#--------------------
 	#read inputfile
-	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/data.csv", quotechar='"')
+	@st.cache_data 	
+	def load_data_quotechar(url):
+		df = pd.read_csv(url, quotechar='"')
+		return df
+		
+	df = load_data_quotechar("https://raw.githubusercontent.com/tyrin/content-dash/master/data/data.csv")
 
 #define variables that the customer will input
 	sitelist= df['Portal'].unique()
@@ -53,18 +58,23 @@ def main(ref):
 		domain = st.sidebar.multiselect('Content Domain:', group)
 		# filter data by portal
 		dfc = df.loc[df['Portal'].isin(portal)]
+		arrows =  st.sidebar.checkbox('Add arrows?')
 		physics = st.sidebar.checkbox('Add physics interactivity?')
 		#frame = st.sidebar.checkbox('Show table data?')
 		graphtitle = 'Network graph for ' + ', '.join(domain) + ' ' + ref + 's:'
 		st.write(graphtitle)
 		#netviz module refrender(relationship, domain, physics)
 		message = st.empty()
-		refrender(ref, domain, physics)
+		refrender(ref, domain, physics, arrows)
 
-def refrender(ref, domain, physics):
+def refrender(ref, domain, physics, arrows):
 
 	# set the network options
-	ccx_net = Network(height='750px', width='100%', bgcolor='white', font_color='blue', heading="")
+	# to make it quicker to render for large amounts of data, remove the directed is true param, which removes the arrows.
+	if arrows:
+		ccx_net = Network(height='750px', width='100%', bgcolor='white', font_color='blue', heading="", directed=True)
+	else:
+		ccx_net = Network(height='750px', width='100%', bgcolor='white', font_color='blue', heading="")
 
 	#read inputfile
 	df = pd.read_csv("https://raw.githubusercontent.com/tyrin/content-dash/master/data/data.csv")
@@ -111,7 +121,8 @@ def refrender(ref, domain, physics):
 
 	# add neighbor data to node hover data
 	for node in ccx_net.nodes:
-		node['title'] += '<br> Neighbors: <br>' + '<br>'.join(neighbor_map[node['id']])
+		#node['title'] += '<br> Neighbors: <br>' + '<br>'.join(neighbor_map[node['id']])+ '<br>'
+		node['title'] += "\nNeighbors:\n" + "\n".join(neighbor_map[node['id']])+ "\n"
 		node['value'] = len(neighbor_map[node['id']])
 
 	if physics:

@@ -10,6 +10,7 @@ import netviz
 import color
 import complex2
 import test
+import testCompAnalysis
 import freshviz
 import scatter4
 import treemap2
@@ -56,6 +57,7 @@ def main():
 	elif app_mode == "Beta":
 		#readme_text.empty()
 		test.main()
+		#testCompAnalysis.main()
 	elif app_mode == "Color":
 		#readme_text.empty()
 		color.main()
@@ -163,7 +165,7 @@ def complex_page():
 def test_page():
 	st.subheader("Beta")
 	# Render the readme as markdown using st.markdown.
-	test()
+	test.main()
 	
 	
 	

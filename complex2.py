@@ -96,7 +96,8 @@ def evaluate(frame, portal, domain, ref, search, searchterm, physics, showdf):
 
 	# add neighbor data to node hover data
 	for node in ccx_net.nodes:
-		node['title'] += ' Neighbors:<br>' + '<br>'.join(neighbor_map[node['id']])
+		#node['title'] += ' Neighbors:<br>' + '<br>'.join(neighbor_map[node['id']])
+		node['title'] += "\nNeighbors:\n" + "\n".join(neighbor_map[node['id']])+ "\n"
 		node['value'] = len(neighbor_map[node['id']])
 	if physics:
 		ccx_net.show_buttons(filter_=['physics'])
